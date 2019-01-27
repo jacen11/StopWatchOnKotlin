@@ -1,7 +1,9 @@
 package com.example.stopwatchonkotlin
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
+import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -17,6 +19,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        if(savedInstanceState!=null){
+            seconds = savedInstanceState.getInt("seconds")
+            running = savedInstanceState.getBoolean("running")
+        }
+
         runTimer()
 
         start_button.setOnClickListener {
@@ -31,6 +38,12 @@ class MainActivity : AppCompatActivity() {
             running = false
             seconds = 0
         }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onSaveInstanceState(savedInstanceState: Bundle?) {
+        savedInstanceState?.putInt("seconds",seconds)
+        savedInstanceState?.putBoolean("running", running)
     }
 
     private fun runTimer() {
